@@ -25,7 +25,7 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Trouver la liste des clients associés aux commandes
-		List<Customer> result = orders.stream().map(o -> o.getCustomer()).collect(Collectors.toList());
+		List<Customer> result = orders.stream().map(o -> o.getCustomer()).toList();
 
 		assertThat(result, hasSize(8));
 	}
@@ -36,7 +36,7 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Compter le nombre de clients associés aux commandes
-		long result = orders.stream().map(o -> o.getCustomer()).collect(Collectors.counting());
+		long result = orders.stream().map(o -> o.getCustomer()).count();
 
 		assertThat(result, is(8L));
 	}
@@ -47,7 +47,7 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Trouver la liste des différents clients associés aux commandes (sans doublons)
-		List<Customer> result = orders.stream().map(o -> o.getCustomer()).distinct().collect(Collectors.toList());
+		List<Customer> result = orders.stream().map(o -> o.getCustomer()).distinct().toList();
 
 		assertThat(result, hasSize(2));
 	}
@@ -58,7 +58,7 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Compter le nombre des différents clients associés aux commandes
-		long result = orders.stream().map(o -> o.getCustomer()).distinct().collect(Collectors.counting());
+		long result = orders.stream().map(o -> o.getCustomer()).distinct().count();
 
 		assertThat(result, is(2L));
 	}
@@ -72,7 +72,7 @@ public class Stream_02_Test {
 		 * TODO Calculer le chiffre d'affaires total de la pizzeria (somme des prix des
 		 * commandes)
 		 */
-		double result = orders.stream().collect(Collectors.summingDouble(o -> o.getPrice()));
+		double result = orders.stream().mapToDouble(o -> o.getPrice()).sum();
 
 		assertThat(result, is(10900.0));
 	}

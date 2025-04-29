@@ -29,7 +29,7 @@ public class Stream_01_Test {
 		List<Pizza> pizzas = new Data().getPizzas();
 
 		// TODO récupérer la liste des pizzas dont le prix est >= 1300
-		List<Pizza> result = pizzas.stream().filter(p -> p.getPrice() >= 1300).collect(Collectors.toList());
+		List<Pizza> result = pizzas.stream().filter(p -> p.getPrice() >= 1300).toList();
 
 		assertThat(result, hasSize(3));
 		assertThat(result, everyItem(hasProperty("price", anyOf(equalTo(1300), greaterThan(1300)))));
@@ -40,7 +40,7 @@ public class Stream_01_Test {
 		List<Pizza> pizzas = new Data().getPizzas();
 
 		// TODO compter le nombre de pizzas dont le prix est >= 1300
-		long result = pizzas.stream().filter(p -> p.getPrice() >= 1300).collect(Collectors.counting());
+		long result = pizzas.stream().filter(p -> p.getPrice() >= 1300).count();
 		assertThat(result, is(3L));
 	}
 
@@ -90,7 +90,8 @@ public class Stream_01_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO récupérer une commande faite par un client dont le prénom est "Sophie"
-		Optional<Order> result = orders.stream().filter(o -> o.getCustomer().getFirstname().equals("Sophie")).findFirst();
+		Optional<Order> result = orders.stream()
+				.filter(o -> o.getCustomer().getFirstname().equals("Sophie")).findFirst();
 
 		assertThat(result.isPresent(), is(false));
 	}
@@ -105,7 +106,7 @@ public class Stream_01_Test {
 		// TODO récupérer la liste de toutes les commandes qui contiennent au moins une
 		// pizza Pépéroni
 		List<Order> result = orders.stream().filter(o -> o.getPizzas().stream()
-				.anyMatch(p -> p.getName().equals("Pépéroni"))).collect(Collectors.toList());
+				.anyMatch(p -> p.getName().equals("Pépéroni"))).toList();
 
 		assertThat(result, hasSize(3));
 	}
