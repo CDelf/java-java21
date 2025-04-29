@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -33,23 +34,23 @@ public class Stream_07_Test {
 
     // TODO créer une fonction List<Pizza> -> List<Pizza>
     // TODO seules les pizzas ayant un prix >= 1000 sont conservées
-    Function<List<Pizza>, List<Pizza>> filterPizza = null;
+    Function<List<Pizza>, List<Pizza>> filterPizza = (pizzas -> pizzas.stream()
+            .filter(p -> p.getPrice() >= 1000).collect(Collectors.toList()));
 
     // TODO créer une fonction List<Pizza> -> List<Pizza>
     // TODO seules les pizzas ayant un prix >= 1000 sont conservées
     // TODO .parallel()
-    Function<List<Pizza>, List<Pizza>> parallelFilterPizza = null;
+    Function<List<Pizza>, List<Pizza>> parallelFilterPizza = (pizzas -> pizzas.stream()
+            .filter(p -> p.getPrice() >= 1000).parallel().collect(Collectors.toList()));
 
     // TODO exécuter le test pour visualiser le temps d'exécution
     @Test
     public void test_arraylist_vs_linkedlist() throws Exception {
         arraylist_vs_linkedlist(filterPizza);
     }
-
     // Que constatez-vous ?
-    // De mon côté :
-    // INFO: arrayList=21 ms
-    // INFO: linkedList=21 ms
+    // INFO: arrayList=11 ms
+    // INFO: linkedList=12 ms
 
 
     // TODO exécuter le test pour visualiser le temps d'exécution
@@ -59,8 +60,8 @@ public class Stream_07_Test {
     }
 
     // Que constatez-vous ?
-    // INFO: arrayList=15 ms
-    // INFO: linkedList=83 ms
+    // INFO: arrayList=10 ms
+    // INFO: linkedList=91 ms
 
     public void arraylist_vs_linkedlist(Function<List<Pizza>, List<Pizza>> fn) throws Exception {
 
@@ -76,5 +77,4 @@ public class Stream_07_Test {
         Logger.getGlobal().info("linkedList=" + linkedList + " ms");
 
     }
-
 }

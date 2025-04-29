@@ -36,11 +36,11 @@ public class Stream_06_Test {
     // TODO compléter la méthode pour que le calcul de la somme soit fait avec une instance d'Accumulator
     private long sumWithAccumulator(long n) {
         // TODO créer une instance de l'accumulateur (classe Accumulator)
-        Accumulator acc = null;
+        Accumulator acc = new Accumulator();
         LongStream longStream = LongStream.rangeClosed(1, n - 1);
 
         // TODO pour chaque élément de longStream, invoquer la méthode add de l'accumulateur (acc)
-
+        longStream.forEach(l -> acc.add(l));
         return acc.total;
     }
 
@@ -58,11 +58,19 @@ public class Stream_06_Test {
 
     // TODO reprendre le code de sumWithAccumulator et rendre le traitement parallèle (.parallel())
     private long sumWithAccumulatorParallel(long n) {
-        return 0;
+        Accumulator acc = new Accumulator();
+        LongStream longStream = LongStream.rangeClosed(1, n - 1).parallel();
+
+        longStream.forEach(l -> acc.add(l));
+        return acc.total;
     }
 
     // TODO Exécuter le test
     // Que constatez-vous ?
+    // Test passant pour 1L à 50l mais échoue pour 1000L:
+    // Expected: is <460479L>    but: was <499500L>
+    // Accumulator n'est pas thread-safe
+
     @Test
     public void test_sumWithAccumulatorParallel() throws Exception {
 
@@ -78,5 +86,4 @@ public class Stream_06_Test {
             Logger.getGlobal().info("Test ok avec n=" + n);
         });
     }
-
 }
